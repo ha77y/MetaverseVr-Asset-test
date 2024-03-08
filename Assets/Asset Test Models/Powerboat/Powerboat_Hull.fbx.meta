@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5ddeed8eb5b4e834eaf439b536ef2e22
+guid: f8c6b003b58e1534a84c7309f847429e
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -24,11 +24,6 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Soft parts
     second: {fileID: 2100000, guid: 44606a436cb0cc94b85e9ba8c69c2eb1, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: boat hard bits
-    second: {fileID: 2100000, guid: ccd5cc38b95649f46b613c67763369a7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
