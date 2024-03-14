@@ -5,93 +5,54 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private PlayerInputMap _pInput;
+    private Rigidbody _rb;
     
-    private float _speed;
-    [SerializeField] private float maxSpeed;
-    [SerializeField] private float maxSpeedReverse;
+    //private float _speed;
     [SerializeField] private float cAcceleration;
-    [SerializeField] private float maxWheelTurns;
-
-    private float currentwheelTurns;
+    
 
     //input variables
-    private float _steer;
-    private float _accelerate;
-    private float _decelerate;
-    private Vector2 _camTurn = Vector2.zero;
+    private float _steerIn;
+    private float _accelerateIn;
+    private float _decelerateIn;
+    private Vector2 _camTurnIn = Vector2.zero;
 
     private void Awake()
     {
         _pInput = new PlayerInputMap();
+        _rb = transform.GetComponent<Rigidbody>();
     }
-
-    private void Start()
-    {
-
-    }
-
-
+    
+    
     // Update is called once per frame
     void Update()
     {
         FetchInputVariables();
 
-        _speed += Acceleration();
+        var acceleration  =  (_accelerateIn + _decelerateIn);
         
-        transform.Translate(Vector3.forward * (_speed * Time.deltaTime));
+        /*
+        _speed = _speed + acceleration > maxSpeed ? maxSpeed : 
+            _speed = _speed+ acceleration < - maxSpeedReverse ? -maxSpeedReverse:
+                acceleration;
+                */
         
+        //_speed = Mathf.Clamp(_speed + acceleration, - maxSpeedReverse, maxSpeed);
         
-        var turnPercent = currentwheelTurns / maxWheelTurns;
-        var turnSpeed = _steer  * _speed * Time.deltaTime;
-        
-        transform.eulerAngles +=  Vector3.up * turnSpeed;
 
-
-
-    }
-
-    private float ClampedSteering()
-    {
-        if (Mathf.Abs(currentwheelTurns + _steer) >= maxWheelTurns)
-        {
-            return 0;
-        }
+        transform.Rotate(0,
+            (0.2f*_steerIn +_steerIn * (2 * _rb.velocity.magnitude *acceleration) )*Time.deltaTime,
+            0);
         
-        return _steer;
-    }
-
-    private float Acceleration()
-    {
-        var rv = 0f;
-        
-        /*if (_accelerate!=0)
-        {
-            if (_speed < maxSpeed)
-            {
-                rv += _accelerate*Time.deltaTime;
-            }
-        }
-
-        if (_decelerate != 0)
-        {
-            if (_speed > Mathf.Abs(maxSpeedReverse)*-1)
-            {
-                rv -= _decelerate*Time.deltaTime;
-            }
-        }*/
-        
-        var addedAcceleration = _accelerate - _decelerate;
-        rv += addedAcceleration * Time.deltaTime;
-        //rv =Mathf.Clamp(rv, maxSpeedReverse, maxSpeed);
-        return rv*cAcceleration;
+        _rb.AddForce(transform.forward * (acceleration * cAcceleration), ForceMode.Acceleration);
     }
 
     private void FetchInputVariables()
     {
-        _steer = _pInput.Movement.Steering.ReadValue<float>();
-        _camTurn = _pInput.Movement.Camera.ReadValue<Vector2>();
-        _accelerate = _pInput.Movement.Accelerate.ReadValue<float>();
-        _decelerate = _pInput.Movement.Decelerate.ReadValue<float>();
+        _steerIn = _pInput.Movement.Steering.ReadValue<float>();
+        _camTurnIn = _pInput.Movement.Camera.ReadValue<Vector2>();
+        _accelerateIn = _pInput.Movement.Accelerate.ReadValue<float>();
+        _decelerateIn = _pInput.Movement.Decelerate.ReadValue<float>();
     }
     
     

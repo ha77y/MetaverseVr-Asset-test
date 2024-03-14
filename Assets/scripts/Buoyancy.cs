@@ -1,12 +1,13 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Buoyancy : MonoBehaviour
 {
     [SerializeField] private Material waterMat;
-    [SerializeField] private float cUpthrust =1;
-    private Rigidbody _rb;
+    [SerializeField] private float numOfBuoys =1;
+    [SerializeField] private Rigidbody rb;
     private float _frequency, _amplitude, _speed
         , _wave1Rot,_wave2Rot,_wave3Rot,_wave4Rot
         ,_wave1Size,_wave2Size,_wave3Size,_wave4Size;
@@ -30,9 +31,7 @@ public class Buoyancy : MonoBehaviour
     void Start()
     {
         _direction = Vector2.one.normalized;
-
-        _rb = gameObject.GetComponent<Rigidbody>();
-
+        
     }
 
 
@@ -48,10 +47,17 @@ public class Buoyancy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (transform.position.y < _waterHeight)
+        
+        var position = transform.position;
+        
+        rb.AddForceAtPosition(Physics.gravity/numOfBuoys,position ,ForceMode.Acceleration);
+        if (position.y < _waterHeight)
         {
-            print("underwader");
-            _rb.AddForce(Vector3.up * ( cUpthrust* ((_waterHeight-transform.position.y) * 9.8f)));
+            print("underwater");
+            
+            rb.AddForceAtPosition(
+                Vector3.up/numOfBuoys * ((_waterHeight-position.y) * Physics.gravity.magnitude)
+                ,position);
         }
     }
 
