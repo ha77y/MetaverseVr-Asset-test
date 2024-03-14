@@ -139,10 +139,10 @@ Material:
     - _Wave3Size: 1.5
     - _Wave4Rotation: 70
     - _Wave4Size: 3
-    - _WaveAmplitude: 1.1
-    - _WaveFrequency: 0.01
+    - _WaveAmplitude: 0.19
+    - _WaveFrequency: 0.1
     - _WaveRotation: 0
-    - _WaveSpeed: 1
+    - _WaveSpeed: 0.35
     - _Wave_Speed: 0.03
     - _WorkflowMode: 1
     - _ZTest: 2
@@ -151,7 +151,8 @@ Material:
     - _wave_amplitude: 0.18
     m_Colors:
     - _BaseColor: {r: 0.28490567, g: 0.7958995, b: 1, a: 0.73333335}
-    - _Color: {r: 0.09562833, g: 0.36546558, b: 0.4566037, a: 1}
+    - _Color: {r: 0.17149875, g: 0.6580833, b: 0.81886786, a: 1}
+    - _DeepCol: {r: 0.10502658, g: 0.29061997, b: 0.5622641, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _WaveDirection: {r: 0, g: 1, b: 0, a: 0}
