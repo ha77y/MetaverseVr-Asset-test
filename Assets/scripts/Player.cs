@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private float _decelerateIn;
     
     public static bool paused;
-    [SerializeField] private float finishTimer =5f;
+    [SerializeField] private float finishTimer =8f;
 
     private void Awake()
     {
@@ -75,10 +75,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        
         if (other.gameObject.CompareTag("Finish"))
         {
             _endtimer += Time.deltaTime;
-            if (_accelerateIn + _decelerateIn != 0)
+            if (_accelerateIn + _decelerateIn != 0 || 
+                Vector3.Dot(other.transform.forward,transform.forward)<0.9f)
             {
                 _endtimer = 0;
             }
