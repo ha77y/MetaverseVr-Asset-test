@@ -5,7 +5,7 @@ Shader "Masked/Mask"{
         Tags{"Queue" = "Geometry+10"}
         
         ColorMask 0
-        Zwrite on 
+        Zwrite on
         
         pass{}
     
