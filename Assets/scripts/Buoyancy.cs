@@ -28,17 +28,17 @@ public class Buoyancy : MonoBehaviour
     private static readonly int Wave4Size = Shader.PropertyToID("_Wave4Size");
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _direction = Vector2.one.normalized;
-        
+        FetchVariables();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        FetchVariables();
+      
         
         _waterHeight = GetWaterHeightAt(transform.position);
        
@@ -85,6 +85,9 @@ public class Buoyancy : MonoBehaviour
         return (wave1 + wave2 + wave3+ wave4);
     }
 
+    //This is a one to one copy of the wave generator for the water shader
+    // all input variables are fetched from the water shader's material on start.
+    // To make the process dynamic just switch "FetchVariables" from start to Update amd you're good to go
     private float WaveGenerator(Vector3 position , Vector2 direction,float rotation, float size)
     {
         var rotatedDir = new Vector2( 
@@ -94,7 +97,6 @@ public class Buoyancy : MonoBehaviour
         var planePos = new Vector2(position.x, position.z);
         var dotDir = Vector2.Dot(rotatedDir, planePos);
         var sinIn = (dotDir + (2 * Time.time * _speed / size)) * (6.28f * _frequency/size);
-        print(rotatedDir);
 
         return (Mathf.Sin(sinIn) + 0.5f) /2  * _amplitude* size ;
     }

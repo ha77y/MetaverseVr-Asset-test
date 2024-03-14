@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UiHandler : MonoBehaviour
 {
@@ -9,14 +10,14 @@ public class UiHandler : MonoBehaviour
     public Canvas winCanvas;
     public CinemachineVirtualCamera startCamera;
 
-    private PlayerInputMap _input;
+    
 
     private void Awake()
     {
         startCanvas.gameObject.SetActive(true);
         pauseCanvas.gameObject.SetActive(false);
         winCanvas.gameObject.SetActive(false);
-        _input = new PlayerInputMap();
+       
     }
 
     public void StartButtonPress()
@@ -27,8 +28,9 @@ public class UiHandler : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void Pause()
+    public void PauseGame()
     {
+        Player.paused = true;
         pauseCanvas.gameObject.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
@@ -37,6 +39,7 @@ public class UiHandler : MonoBehaviour
 
     public void Resume()
     {
+        Player.paused = false;
         pauseCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
@@ -45,13 +48,21 @@ public class UiHandler : MonoBehaviour
 
     public void Win()
     {
+        startCamera.gameObject.SetActive(true);
         winCanvas.gameObject.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-    private void Update()
+    public void PlayAgain()
     {
-       // if () ;
+        SceneManager.LoadScene(0);
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    
 }

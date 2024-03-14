@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 
@@ -6,16 +7,21 @@ public class Player : MonoBehaviour
 {
     private PlayerInputMap _pInput;
     private Rigidbody _rb;
+    [SerializeField] private UiHandler _uiHandler;
+    
     
     //private float _speed;
     [SerializeField] private float cAcceleration;
-    
+
+    private float _endtimer;
 
     //input variables
     private float _steerIn;
     private float _accelerateIn;
     private float _decelerateIn;
-    private Vector2 _camTurnIn = Vector2.zero;
+    
+    public static bool paused;
+    [SerializeField] private float finishTimer =5f;
 
     private void Awake()
     {
@@ -28,6 +34,19 @@ public class Player : MonoBehaviour
     void Update()
     {
         FetchInputVariables();
+
+        if (_pInput.UI.Pause.triggered)
+        {
+            print("pause");
+            if (!paused)
+            {
+                _uiHandler.PauseGame();
+            }
+            else
+            {
+                _uiHandler.Resume();
+            }
+        }
 
         var acceleration  =  (_accelerateIn + _decelerateIn);
         
@@ -50,12 +69,27 @@ public class Player : MonoBehaviour
     private void FetchInputVariables()
     {
         _steerIn = _pInput.Movement.Steering.ReadValue<float>();
-        _camTurnIn = _pInput.Movement.Camera.ReadValue<Vector2>();
         _accelerateIn = _pInput.Movement.Accelerate.ReadValue<float>();
         _decelerateIn = _pInput.Movement.Decelerate.ReadValue<float>();
     }
-    
-    
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            _endtimer += Time.deltaTime;
+            if (_accelerateIn + _decelerateIn != 0)
+            {
+                _endtimer = 0;
+            }
+
+            if (_endtimer > finishTimer)
+            {
+                _uiHandler.Win();
+            }
+        }
+    }
+
     private void OnEnable()
     {
         _pInput.Enable();
