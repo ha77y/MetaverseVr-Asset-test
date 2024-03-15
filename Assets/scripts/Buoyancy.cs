@@ -15,6 +15,9 @@ public class Buoyancy : MonoBehaviour
 
     private float _waterHeight;
 
+    
+    // To Ensure water is the same on GPU and CPU, the same process is applied using the same variables
+    
     private static readonly int WaveFrequency = Shader.PropertyToID("_WaveFrequency");
     private static readonly int WaveAmplitude = Shader.PropertyToID("_WaveAmplitude");
     private static readonly int WaveSpeed = Shader.PropertyToID("_WaveSpeed");
@@ -27,7 +30,7 @@ public class Buoyancy : MonoBehaviour
     private static readonly int Wave4Rotation = Shader.PropertyToID("_Wave4Rotation");
     private static readonly int Wave4Size = Shader.PropertyToID("_Wave4Size");
 
-    // Start is called before the first frame update
+    
     void Awake()
     {
         _direction = Vector2.one.normalized;
@@ -35,18 +38,18 @@ public class Buoyancy : MonoBehaviour
     }
 
 
-    // Update is called once per frame
+   
     void Update()
     {
-      
+        //FetchVariables(); : Reacts to Live Changes in water shader (expensive) 
         
         _waterHeight = GetWaterHeightAt(transform.position);
-       
-
+        
     }
 
     private void FixedUpdate()
     {
+        //Buoys are Positions on the object where buoyancy is calculated.
         
         var position = transform.position;
         
@@ -85,9 +88,8 @@ public class Buoyancy : MonoBehaviour
         return (wave1 + wave2 + wave3+ wave4);
     }
 
-    //This is a one to one copy of the wave generator for the water shader
-    // all input variables are fetched from the water shader's material on start.
-    // To make the process dynamic just switch "FetchVariables" from start to Update amd you're good to go
+    // This is a one to one copy of the wave generator for the water shader
+    // all input variables are fetched from the water shader's material
     private float WaveGenerator(Vector3 position , Vector2 direction,float rotation, float size)
     {
         var rotatedDir = new Vector2( 

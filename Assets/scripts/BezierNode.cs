@@ -10,7 +10,7 @@ public class BezierNode : MonoBehaviour
     [SerializeField]private Transform weightFwd;
     [SerializeField]private Transform weightBack;
     
-    [SerializeField]public Transform Node
+    public Transform Node
     {
         get { return node; }
         set { node = value; }
@@ -32,5 +32,11 @@ public class BezierNode : MonoBehaviour
     {
         Gizmos.DrawLine(Node.position,WeightFwd.position);
         Gizmos.DrawLine(Node.position,WeightBack.position);
+        Gizmos.color = Color.green;
+        Gizmos.DrawCube(node.position, Vector3.one *1f); 
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(weightBack.position, Vector3.one *0.8f); 
+        Gizmos.DrawCube(weightFwd.position, Vector3.one *0.8f); 
+        
     }
 }

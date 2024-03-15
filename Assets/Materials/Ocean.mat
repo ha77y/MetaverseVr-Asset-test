@@ -139,7 +139,7 @@ Material:
     - _Wave3Size: 1.5
     - _Wave4Rotation: 70
     - _Wave4Size: 3
-    - _WaveAmplitude: 0.19
+    - _WaveAmplitude: 0.2
     - _WaveFrequency: 0.1
     - _WaveRotation: 0
     - _WaveSpeed: 0.35

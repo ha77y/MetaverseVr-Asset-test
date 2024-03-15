@@ -1,13 +1,14 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class Player : MonoBehaviour
 {
     private PlayerInputMap _pInput;
     private Rigidbody _rb;
-    [SerializeField] private UiHandler _uiHandler;
+    [SerializeField] private UiHandler uiHandler;
     
     
     //private float _speed;
@@ -40,11 +41,11 @@ public class Player : MonoBehaviour
             print("pause");
             if (!paused)
             {
-                _uiHandler.PauseGame();
+                uiHandler.PauseGame();
             }
             else
             {
-                _uiHandler.Resume();
+                uiHandler.Resume();
             }
         }
 
@@ -79,7 +80,8 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Finish"))
         {
             _endtimer += Time.deltaTime;
-            if (_accelerateIn + _decelerateIn != 0 || 
+            if (_accelerateIn + _decelerateIn != 0 ||
+                // checking that the boat is docking at port-side
                 Vector3.Dot(other.transform.forward,transform.forward)<0.9f)
             {
                 _endtimer = 0;
@@ -87,7 +89,7 @@ public class Player : MonoBehaviour
 
             if (_endtimer > finishTimer)
             {
-                _uiHandler.Win();
+                uiHandler.Win();
             }
         }
     }
