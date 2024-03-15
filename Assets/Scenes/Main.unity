@@ -4750,7 +4750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiHandler: {fileID: 1247969771}
-  cAcceleration: 8
+  cAcceleration: 20
   finishTimer: 8
 --- !u!54 &729026213
 Rigidbody:

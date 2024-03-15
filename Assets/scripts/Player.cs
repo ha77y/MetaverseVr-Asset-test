@@ -1,7 +1,7 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 
 public class Player : MonoBehaviour
@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     
     
     //private float _speed;
-    [SerializeField] private float cAcceleration;
+    [SerializeField] private float cAcceleration = 80f;
 
     private float _endtimer;
 
@@ -48,17 +48,12 @@ public class Player : MonoBehaviour
                 uiHandler.Resume();
             }
         }
+    }
 
+    private void FixedUpdate()
+    {
         var acceleration  =  (_accelerateIn + _decelerateIn);
-        
-        /*
-        _speed = _speed + acceleration > maxSpeed ? maxSpeed : 
-            _speed = _speed+ acceleration < - maxSpeedReverse ? -maxSpeedReverse:
-                acceleration;
-                */
-        
-        //_speed = Mathf.Clamp(_speed + acceleration, - maxSpeedReverse, maxSpeed);
-        
+
 
         transform.Rotate(0,
             (0.2f*_steerIn +_steerIn * (2 * _rb.velocity.magnitude *acceleration) )*Time.deltaTime,
@@ -66,6 +61,7 @@ public class Player : MonoBehaviour
         
         _rb.AddForce(transform.forward * (acceleration * cAcceleration), ForceMode.Acceleration);
     }
+    
 
     private void FetchInputVariables()
     {
