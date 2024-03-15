@@ -56,6 +56,8 @@ public class UiHandler : MonoBehaviour
 
     public void PlayAgain()
     {
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene(0);
     }
 
